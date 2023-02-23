@@ -46,7 +46,7 @@ Module in Node. js is a simple or complex functionality organized in single or m
 
 ## Different types of module in Nodejs
 
-- file base module
+- file base module , build in, third party
 
 1. Nodejs Core Modules:
 
@@ -170,3 +170,191 @@ http.createServer(function (req, res) {
 }).listen(3000);
 
 ```
+
+## Reading query string:
+
+The function in the create server has a request argument and this request object has a property of URL. It contains the part of the url that is present after the domain name.
+
+So when you go to localhost:3000/dataflair/nodejs, the output will be dataflair/nodejs
+
+### Code for reading query string:
+
+```
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(req.url);
+    res.end();
+}).listen(3000);
+
+```
+
+## Nodejs URL Module:
+
+This is a built-in module of node.js. It breaks down the url into readable parts. It is included in the file by using the require function;
+
+To Parse an address, use the url.parse() method. It will return a URL object with each part of the address as its properties.
+
+### Code for using the url Module:
+
+```
+let url = require('url');
+var adr = 'http://localhost:3000/search?year=2021&month=august';
+var q = url.parse(adr, true);
+
+console.log(q.host);
+console.log(q.pathname);
+console.log(q.search);
+
+var qdata = q.query;
+console.log(qdata.month);
+```
+
+## File Server:
+
+Now we will be parsing the url and based on it we will be returning the content of the requested file. If the file is not found we will get an 404 error message. So first create a html/text file and add some content. We have made a text file with name as “DataFlair.txt” and it contains the line “Welcome to DataFlair” .
+
+```
+var http = require('http');
+var url = require('url');
+var fs = require('fs');
+
+http.createServer(function (req, res) {
+    var q = url.parse(req.url, true);
+    var filename = "." + q.pathname;
+    fs.readFile(filename, function (err, data) {
+        if (err) {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            return res.end("404 Not Found");
+        }
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write(data);
+        return res.end();
+    });
+}).listen(3000);
+```
+
+## Nodejs File System Module:
+
+This is a built-in module of node.js. It helps to create, read, write, update, or delete files in our computer. It is included in the file by using the require function.
+
+## Create File: It has mainly 3 methods
+
+1. Append file.
+   The fs.appendFile() method’s second argument takes the text that we want to append, and then it appends at the end of the file, if the given file does not exist then the file will be created.
+
+```
+var fs=require(‘fs’)
+fs.appendFile('DataFlairDemo.txt', 'welcome to DataFlair', function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+2. Open file
+   The fs.open() method’s second argument is “w” for “writing”,which indicates that the file is opened for writing and if it does not exist then an empty file is created.
+
+## Code for opening a file:
+
+```
+var fs=require(‘fs’)
+fs.open('DataFlairDemo.txt', 'w', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+3. WriteFile:
+   The fs.writeFile() method’s second argument takes the text that we want to write, and then it overrides the content available in the file if the given file does not exist then the file will be created.
+
+## Code for writing in a file:
+
+```
+var fs = require('fs');
+fs.writeFile('DataFlairDemo.txt', 'Learn Node.js from DataFlair', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+## Update File: It has mainly 2 methods
+
+1. fs.appendFile()
+   The fs.appendFile() method’s second argument takes the text that we want to append, and then it appends at the end of the file, if the given file does not exist then the file will be created.
+
+## Code for fs.appendFile()
+
+```
+var fs=require(‘fs’)
+fs.appendFile('DataFlairDemo.txt', 'welcome to DataFlair', function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+2. fs.writeFile():
+   The fs.writeFile() method’s second argument takes the text that we want to write, and then it overrides the content available in the file, if the given file does not exist then the file will be created.
+
+```
+var fs = require('fs');
+fs.writeFile('DataFlairDemo.txt', 'Learn Node.js from DataFlair', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+## Read File:
+
+It is used to read files present in your system.
+
+### Code for reading a file:
+
+```
+var fs = require('fs');
+fs.readFile('DataFlairDemo.txt', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+## Delete File: to delete a file use fs.unlink();
+
+### Code for deleting a file:
+
+```
+var fs = require('fs');
+fs.unlink('DataFlairDemo.txt', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+## Rename File:
+
+If we want to rename a file we will use the fs.rename() method of the file system module.
+
+```
+var fs = require('fs');
+fs.rename('DataFlair1.txt', 'DataFlair2.txt', function (err, file) {
+    if (err) throw err;
+    console.log('Saved!');
+});
+```
+
+# Important nodejs modules and their uses:
+
+1. Http: Used for creating an HTTP server in nodejs.
+
+2. Assert: Used for testing node js application using a set of assertion functions.
+
+3. Fs: Used in modification of files.
+
+4. Path: It helps to find the file paths.
+
+5. Process: Gives information regarding the current process.
+
+6. Os: It contains the details of the operating system in which the node js application is currently running.
+
+7. Querystring: It helps in parsing and proper formatting of the url.
+
+8. Url: This module also helps in parsing the urls.
