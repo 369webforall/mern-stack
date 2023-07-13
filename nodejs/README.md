@@ -80,7 +80,7 @@ console.log(a)
 ```
 //index.js
 
-const a = require('./index);
+const a = require('./app);
 console.log(a)
 
 
