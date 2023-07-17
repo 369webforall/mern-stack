@@ -1,22 +1,50 @@
 # Nodejs
 
+[Nodejs Document](https://nodejs.dev/en/learn/how-much-javascript-do-you-need-to-know-to-use-nodejs/)
+
 Node.js is an open source server environment.
 
-Node.js allows you to run JavaScript on the server.
+Node.js allows you to run JavaScript on the server or you local machine.
 
 Node.js, the server-side JavaScript runtime environment. Node.js is built on top of the Google Chrome V8 JavaScript engine, and it's mainly used to create web servers - but it's not limited to just that.
 
-```
+- Nodejs can communicate to the server or local machine.
+
+- Ryan Dahl take the v8 engine from chrome browser combine with C++ and make it work in server or our local machine.
+
+**Benefit of Nodejs**
+
+- You can run Javascript outside of browser
+- Javascript can talk to native machine becuase of C++
+- You can create webserver in Javascript language.
+
+# Install Nodejs
+
+- google search nodejs
+- Download the Recommended for the most user
+- Install in your machine
+- Open terminal and type --version
+- If the nodejs is installed properly then it should display the version of installed nodejs.
+
+**type node in your terminal to get nodejs terminal.**
+
+Now you can write any Javascript code in Nodejs terminal.
+
+**What is the difference between nodejs and JavaScript in Browser**
+
+- Basically in nodejs DOM related functionality are removed.
+- you don't have access to window object in nodejs.
+
+```javascript
 console.log('This example is different!');
 console.log('The result is displayed in the Command Line Interface');
-
 ```
 
 - start project (nodejs)
 - creare file index.js
 - go to terminal switch to nodejs directory
 - type command (nodejs>npm init) enter
-- type answer to the asked question.(name, description, author)
+- reply answer to the asked question or just press enter.(name, description, author etc...)
 - now you can see package.json
 
 ## What is package.json file.
