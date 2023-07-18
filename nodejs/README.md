@@ -388,3 +388,43 @@ fs.rename('DataFlair1.txt', 'DataFlair2.txt', function (err, file) {
 7. Querystring: It helps in parsing and proper formatting of the url.
 
 8. Url: This module also helps in parsing the urls.
+
+## Server example
+
+```javascript
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.end('This is home page');
+  } else if (req.url === '/about') {
+    res.end('This is about page');
+  } else if (req.url === '/contact') {
+    res.end('This is contact page');
+  } else {
+    res.end('404 page not found');
+  }
+});
+
+server.listen(8000, () => {
+  console.log('server is running on port 5000');
+});
+```
+
+## URL (Uniform Resource Locator)
+
+- A Uniform Resource Locator (URL), otherwise known as a Universal Resource Locator, is the address of a resource on the Internet and the protocol used to access it.
+
+[URL DESCRIPTION](https://www.hostinger.com/tutorials/what-is-a-url)
+
+https://www.google.com/search?q=javascript&oq=javascript&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIxgnGIoFMgYIAhBFGDsyBggDEEUYOzIJCAQQABhDGIoFMgkIBRAAGEMYigUyCQgGEAAYQxiKBTIHCAcQABiABDIHCAgQABiABDIHCAkQABiABNIBDTIxMTMxMDk3ajBqMTWoAgCwAgA&sourceid=chrome&ie=UTF-8
+
+## HTTP verbs
+
+**HTTP verbs**
+
+- Retrieve a single item (GET)
+- Retrieve a list of items (GET)
+- Create an item (POST)
+- Update an item (PUT)
+- Delete an item (DELETE)
