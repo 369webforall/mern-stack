@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user registration</title>
+    <style>
+        .reg {
+            width:50%;
+            margin: 20px auto;
+            border: 2px solid orange;
+            padding: 5px;
+        }
+        input, label {
+            width: 90%;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reg">
+        <h1>User Registration</h1>
+        <form action="/api/v1/users" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        <button class="btn">Register</button>
+        </form>
+    </div>
+    
+    
+</body>
+</html>
