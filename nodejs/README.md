@@ -4,6 +4,8 @@
 
 [class recording-2](https://youtu.be/Cu_CCo8uQaw)
 
+[class recording-3 - REST API](https://youtu.be/F8Z0jFcJvEc)
+
 [Nodejs Document](https://nodejs.dev/en/learn/how-much-javascript-do-you-need-to-know-to-use-nodejs/)
 
 Node.js is an open source server environment.
