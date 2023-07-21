@@ -4,13 +4,13 @@ MongoDB is an open source NoSQL database management program. NoSQL is used as an
 
 ## For installation please follow the below tutorial
 
+[Youtube video - 1 hour](https://www.youtube.com/watch?v=c2M-rlkkT5o)
+
 ## Download MSI package for installation
 
 [Program Download](https://www.mongodb.com/try/download/community)
 
 ## For GUI install compass
-
-[compass-download](https://www.mongodb.com/products/compass)
 
 [for shell](https://www.mongodb.com/products/shell)
 
