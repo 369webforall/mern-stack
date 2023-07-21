@@ -6,7 +6,7 @@ MongoDB is an open source NoSQL database management program. NoSQL is used as an
 
 [Youtube video - 1 hour](https://www.youtube.com/watch?v=c2M-rlkkT5o)
 
-[Class Recording -](https://youtu.be/-WGwjmSEkEI)
+[Class Recording -](https://youtu.be/nKVCqHNSq4k)
 
 ## Download MSI package for installation
 
