@@ -4,8 +4,6 @@ MongoDB is an open source NoSQL database management program. NoSQL is used as an
 
 ## For installation please follow the below tutorial
 
-[MongoDB Installation- YTV](https://www.youtube.com/watch?v=8GO6PQUBtfI)
-
 ## Download MSI package for installation
 
 [Program Download](https://www.mongodb.com/try/download/community)
@@ -17,6 +15,10 @@ MongoDB is an open source NoSQL database management program. NoSQL is used as an
 [for shell](https://www.mongodb.com/products/shell)
 
 ## All MongoDB commands you will ever need (MongoDB Cheatsheet)
+
+[cheetsheet - github](https://gist.github.com/bradtraversy/f407d642bdc3b31681bc7e56d95485b6)
+
+[cheetsheet - article](https://towardsdev.com/mongodb-operations-an-extensive-guide-eef52ceb8df1)
 
 In this post, we will see a comprehensive list of all the MongoDB commands you will ever need as a MongoDB beginner. This list covers almost all the most used commands in MongoDB.
 I will assume that you are working inside a collection named 'comments' on a MongoDB database of your choice
