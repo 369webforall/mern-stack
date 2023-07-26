@@ -19,9 +19,9 @@ const AllPost = () => {
     getData();
   }, []);
 
-  const handleUpdate = async (id) => {
-    console.log(id);
-  };
+  // const handleUpdate = async (id) => {
+  //   console.log(id);
+  // };
 
   const handleDelete = async (id) => {
     const response = await fetch(`http://localhost:8080/${id}`, {
@@ -50,7 +50,7 @@ const AllPost = () => {
         <Card
           data={obj}
           key={obj._id}
-          onUpdate={handleUpdate}
+         
           onDelete={handleDelete}
         />
       ))}
