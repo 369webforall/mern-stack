@@ -6,7 +6,7 @@ const Navbar = () => {
       <h1 className="text-4xl font-semibold">Book Store</h1>
       <div className="flex gap-4 text-2xl font-medium">
         <Link to="/">Home</Link>
-        <Link to="/all-book">All_Book</Link>
+        <Link to="/all-books">All_Books</Link>
         <Link to="/add-book">Add_Book</Link>
       </div>
     </nav>

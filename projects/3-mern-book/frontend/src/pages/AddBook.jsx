@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const AddBook = () => {
-  const [book, setBook] = useState({
-    name,
-    author,
-    desc,
-    price,
-    img,
-    available,
-  });
+  const navigate = useNavigate();
 
+  const [checked, setChecked] = useState(false);
+  const [book, setBook] = useState({
+    name: '',
+    author: '',
+    desc: '',
+    price: '',
+    img: '',
+  });
+  const handleChange = (e) => {
+    setBook((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const sendRequest = async () => {
+    await axios
+      .post('http://localhost:5000/books', {
+        name: String(book.name),
+        author: String(book.author),
+        desc: String(book.desc),
+        price: Number(book.price),
+        img: String(book.img),
+        available: Boolean(checked),
+      })
+      .then((res) => res.data);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    sendRequest().then(() => navigate('/all-books'));
   };
   return (
     <div>
@@ -28,7 +48,8 @@ const AddBook = () => {
               type="text"
               id="name"
               name="name"
-              value="name"
+              value={book.name}
+              onChange={handleChange}
               className="mt-1 p-2 border border-gray-500 rounded w-full required"
             />
           </div>
@@ -40,7 +61,8 @@ const AddBook = () => {
               type="text"
               id="author"
               name="author"
-              value="author"
+              onChange={handleChange}
+              value={book.author}
               className="mt-1 p-2 border border-gray-500 rounded w-full required"
             />
           </div>
@@ -52,7 +74,8 @@ const AddBook = () => {
               type="text"
               id="desc"
               name="desc"
-              value="desc"
+              onChange={handleChange}
+              value={book.desc}
               className="mt-1 p-2 border border-gray-500 rounded w-full required"
             />
           </div>
@@ -65,7 +88,8 @@ const AddBook = () => {
               type="number"
               id="price"
               name="price"
-              value="price"
+              onChange={handleChange}
+              value={book.price}
               className="mt-1 p-2 border border-gray-500 rounded w-full required"
             />
           </div>
@@ -76,13 +100,20 @@ const AddBook = () => {
             <input
               type="text"
               id="image"
-              name="image"
-              value="image"
+              name="img"
+              value={book.img}
+              onChange={handleChange}
               className="mt-1 p-2 border border-gray-500 rounded w-full required"
             />
           </div>
           <div>
-            <input type="radio" id="available" name="available" />
+            <input
+              type="radio"
+              id="available"
+              name="available"
+              checked={checked}
+              onChange={() => setChecked(!checked)}
+            />
             <label htmlFor="available">Available</label>
           </div>
           <div className="text-center">
