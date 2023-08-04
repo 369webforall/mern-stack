@@ -36,7 +36,6 @@ const AddBook = () => {
   };
   return (
     <div>
-      <div>display error</div>
       <div>
         <h1 className="text-center text-2xl">Add Book</h1>
         <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
