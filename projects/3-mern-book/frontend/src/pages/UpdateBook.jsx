@@ -26,52 +26,44 @@ const UpdateBook = () => {
   //fetch single item
 
   const singleUser = async () => {
-    await axios.get(`http://localhost:5000/books/${id}`).then((res) => {
-      if (res) {
-        console.log(res);
-        const { name, author, desc, price, img, available } = res;
-        SetError('');
+    await axios
+      .get(`http://localhost:5000/books/${id}`)
+      .then((res) => res.data)
+      .then((data) => {
+        const { name, author, desc, price, img } = data.book;
         setBook({
-          name: name,
-          author: author,
-          desc: desc,
-          price: price,
-          img: img,
+          name,
+          author,
+          desc,
+          price,
+          img,
         });
-      }
-    });
+      });
   };
 
   useEffect(() => {
     singleUser();
-  }, []);
+  }, [id]);
 
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    // Here, you can handle the form submission, for example, by sending the data to a server.
+  const sendRequest = async () => {
     await axios
-      .put(`http://localhost:5000/books/${id}`)
-      .then((res) => {
-        if (res) {
-          SetError('User updated');
-          setBook({
-            name: '',
-            author: '',
-            desc: '',
-            price: '',
-            img: '',
-            available: '',
-          });
-
-          navigate('/all-post');
-        }
+      .put(`http://localhost:5000/books/${id}`, {
+        name: String(book.name),
+        author: String(book.author),
+        description: String(book.desc),
+        price: Number(book.price),
+        image: String(book.img),
+        available: Boolean(checked),
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => res.data);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendRequest().then(() => navigate('/all-books'));
   };
   return (
-    <form onSubmit={handleEdit} className="max-w-sm mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
       <div className="text-center bg-orange-300">
         {error && <h1>{error}</h1>}
       </div>
