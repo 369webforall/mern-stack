@@ -43,8 +43,6 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const isLoggedIn = useSelector((state) => state);
-
   return <RouterProvider router={router} />;
 };
 
