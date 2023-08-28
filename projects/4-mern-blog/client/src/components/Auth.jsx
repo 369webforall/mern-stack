@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -35,16 +36,15 @@ const Auth = () => {
     if (isSignup) {
       // Handle signup logic here
       sendRequest('signup')
+        .then((data) => localStorage.setItem('userId', data.existingUser._id))
         .then(() => dispatch(authActions.login()))
-        .then(() => navigate('/auth'))
-        .then((data) => console.log(data));
+        .then(() => navigate('/blogs'));
     } else {
       // Handle login logic here
       sendRequest()
+        .then((data) => localStorage.setItem('userId', data.existingUser._id))
         .then(() => dispatch(authActions.login()))
-        .then(() => navigate('/blogs'))
-
-        .then((data) => console.log(data));
+        .then(() => navigate('/blogs'));
     }
   };
 

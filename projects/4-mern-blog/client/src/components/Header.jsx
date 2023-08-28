@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { authActions } from '../store';
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,7 @@ const Header = () => {
         <nav className="flex gap-4">
           <Link to="/blogs">All Blogs</Link>
           <Link to="/myblogs">My Blog</Link>
+          <Link to="/blog/add">Add Blog</Link>
         </nav>
       )}
 
@@ -31,7 +32,7 @@ const Header = () => {
           <Link
             to="/auth"
             className="bg-orange-600 px-4 py-1 rounded-full"
-            onClick={() => dispatch(authActions.logout)}
+            onClick={() => dispatch(authActions.logout())}
           >
             Logout
           </Link>
