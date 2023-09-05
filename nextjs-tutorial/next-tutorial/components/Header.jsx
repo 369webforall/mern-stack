@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 
@@ -10,6 +11,8 @@ const Header = () => {
         <Link href="/html">HTML</Link>
         <Link href="/css">CSS</Link>
         <Link href="/javascript">JavaScript</Link>
+        <Link href="/dashboard">Dashboard</Link>
+        <Link href="/todos">Todos</Link>
       </nav>
     </header>
   );
