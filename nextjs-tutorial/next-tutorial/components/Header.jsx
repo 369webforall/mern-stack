@@ -8,6 +8,9 @@ const Header = () => {
       <h1>Logo</h1>
       <nav className="flex gap-4 text-center">
         <Link href="/">Home</Link>
+        <Link href="/users">Users</Link>
+        <Link href="/dogs">Dogs</Link>
+
         <Link href="/html">HTML</Link>
         <Link href="/css">CSS</Link>
         <Link href="/javascript">JavaScript</Link>
