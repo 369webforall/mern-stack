@@ -21,7 +21,12 @@ const Dog = async () => {
     <div>
       <h1>Random dog image</h1>
       <div className="w-[400px] h-[300px] border border-zinc-600 p-2 relative">
-        <Image src={dog.message} fill className="object-contain" />
+        <Image
+          src={dog.message}
+          fill
+          className="object-contain"
+          alt="random dog"
+        />
       </div>
     </div>
   );

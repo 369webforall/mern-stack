@@ -9,3 +9,7 @@
 [class-4-yt](https://youtu.be/LGVC0l4NQBQ)
 
 [class-4-yt-part-2](https://youtu.be/1AX8c1HvYkk)
+
+[class-5-yt](https://youtu.be/uYH73D9mXkc)
+
+[class-6-yt](https://youtu.be/mGxVsbpjtrc)

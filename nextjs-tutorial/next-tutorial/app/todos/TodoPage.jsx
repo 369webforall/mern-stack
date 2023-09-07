@@ -19,6 +19,7 @@ const TodoPage = async () => {
     <div>
       {todos.map((todo) => (
         <Link key={todo.id} href={`/todos/${todo.id}`}>
+          {' '}
           <p>Todo:{todo.id}</p>
         </Link>
       ))}

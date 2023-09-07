@@ -1,8 +1,12 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
+
+export const dynamicParams = true;
 
 async function getData(todoId) {
   const res = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${todoId}`
+    `https://jsonplaceholder.typicode.com/todos/${todoId}`,
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) {
@@ -18,6 +22,8 @@ const SinglePage = async ({ params }) => {
 
   const todo = await getData(todoId);
 
+  if (!todo.id) return notFound();
+
   return (
     <div className="bg-gray-400 p-4">
       <p>Id {todo.id}</p>
@@ -28,3 +34,14 @@ const SinglePage = async ({ params }) => {
 };
 
 export default SinglePage;
+
+// This is a reserved function
+export async function generateStaticParams() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/');
+  const todos = await res.json();
+
+  const trimmedTodos = todos.splice(0, 15); // [{}, {}]
+  return trimmedTodos.map((todo) => ({
+    todoId: todo.id.toString(),
+  }));
+}

@@ -17,12 +17,8 @@ const User = async () => {
   return (
     <div>
       {users.map((user) => (
-        <p className="mb-4">
-          <Link
-            key={user.id}
-            href={`users/${user.id}`}
-            className="mt-2 bg-orange-300 p-2"
-          >
+        <p className="mb-4" key={user.id}>
+          <Link href={`users/${user.id}`} className="mt-2 bg-orange-300 p-2">
             {user.name}
           </Link>
         </p>
