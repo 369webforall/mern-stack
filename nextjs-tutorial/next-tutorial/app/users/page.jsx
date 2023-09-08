@@ -19,7 +19,7 @@ const User = async () => {
       {users.map((user) => (
         <p className="mb-4" key={user.id}>
           <Link href={`users/${user.id}`} className="mt-2 bg-orange-300 p-2">
-            {user.name}
+            <p>{user.name}</p>
           </Link>
         </p>
       ))}

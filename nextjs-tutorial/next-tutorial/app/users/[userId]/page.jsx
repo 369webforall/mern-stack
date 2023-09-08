@@ -35,7 +35,6 @@ const UserPage = async ({ params }) => {
   const userPost = await getUserPost(userId);
 
   const [user, posts] = await Promise.all([userData, userPost]);
-  console.log(posts);
 
   return (
     <div className="bg-slate-800 text-white w-[400px] p-4 rounded-sm">
@@ -45,10 +44,12 @@ const UserPage = async ({ params }) => {
         <p>Phone: {user.phone}</p>
         <p>Website: {user.website}</p>
       </div>
-      <div className="bg-gray-900 text-white">
+      <div className="bg-orange-400 text-white p-4">
         {posts.map((post) => (
-          <Link href={`/users/${userId}/${post.id}`}>
-            <p>{post.title}</p>
+          <Link href={`/users/${userId}/${post.id}`} key={post.id}>
+            <p className="bg-gray-600 text-white p-2 mb-4">
+              {post.id}:{post.title}
+            </p>
           </Link>
         ))}
       </div>

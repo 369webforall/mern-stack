@@ -1,0 +1,16 @@
+GET http://localhost:3000/api?name=dev&age=40
+
+
+###
+
+POST http://localhost:3000/api
+Content-Type: application/json
+
+{
+    "name": "Robert Welker",
+    "age":2
+}
+
+###
+
+GET http://localhost:3000/api/blogs/slug-123

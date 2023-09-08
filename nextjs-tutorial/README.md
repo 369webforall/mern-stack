@@ -13,3 +13,5 @@
 [class-5-yt](https://youtu.be/uYH73D9mXkc)
 
 [class-6-yt](https://youtu.be/mGxVsbpjtrc)
+
+[class-7-yt](https://youtu.be/VsrG8iYpHLY)

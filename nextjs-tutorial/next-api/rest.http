@@ -1,0 +1,26 @@
+GET http://localhost:3000/api?name=Robert&age=40
+
+###
+
+GET http://localhost:3000/api/blogs
+
+###
+
+POST http://localhost:3000/api
+Content-Type: application/json
+
+{
+    "name":"Robet",
+    "age":40
+}
+
+###
+
+GET http://localhost:3000/api/blogs/post10
+
+###
+GET http://localhost:3000/api/blogs/post10/comments/20
+
+###
+
+GET http://localhost:3000/api/blogs/slug/comments/
