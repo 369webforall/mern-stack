@@ -16,6 +16,8 @@
 
 [class-7-yt](https://youtu.be/VsrG8iYpHLY)
 
-[class-8-yt](https://youtu.be/ISEW4lbMDZw)
+[class-8-yt- CRUD](https://youtu.be/ISEW4lbMDZw)
 
-[class-8 part 2-yt](https://youtu.be/jYIW03wE7ic)
+[class-8 part2-CRUD](https://youtu.be/jYIW03wE7ic)
+
+[class-9 - CRUD](https://youtu.be/BlL5kqjD-ss)

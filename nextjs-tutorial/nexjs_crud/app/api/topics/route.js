@@ -3,7 +3,7 @@ import connectMongoDB from '@/libs/mongodb';
 import Topic from '@/models/Topic';
 
 import { NextResponse } from 'next/server';
-
+//http://localhost:3000/api/topics
 export async function GET() {
   await connectMongoDB();
   const res = await Topic.find();
