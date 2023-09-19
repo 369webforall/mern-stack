@@ -21,3 +21,5 @@
 [class-8 part2-CRUD](https://youtu.be/jYIW03wE7ic)
 
 [class-9 - CRUD](https://youtu.be/BlL5kqjD-ss)
+
+[class-10 - CRUD](https://youtu.be/f_F9jzgK7mQ)

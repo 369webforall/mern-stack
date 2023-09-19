@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import RemoveBtn from './RemoveBtn';
 async function getData() {
   const res = await fetch('http://localhost:3000/api/topics', {
     cache: 'no-cache',
@@ -35,12 +36,8 @@ const DisplayTopics = async () => {
             >
               Edit
             </Link>
-            <Link
-              href={`/${t._id}`}
-              className="bg-red-400 px-4 py-2 rounded-md"
-            >
-              Delete
-            </Link>
+
+            <RemoveBtn id={t._id} />
           </div>
         </div>
       ))}
