@@ -28,6 +28,8 @@
 
 [class-1-shadcn](https://youtu.be/5euJdqpK9_o)
 
+[class-2-shadcn](https://youtu.be/IzZ2UhJVMZU)
+
 - video about clsx and twMerge
 - cn() - Every Tailwind Coder Needs It (clsx + twMerge)
   [clsx + twMerge](https://www.youtube.com/watch?v=re2JFITR7TI)
