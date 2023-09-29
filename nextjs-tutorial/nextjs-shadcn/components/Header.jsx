@@ -3,9 +3,10 @@ import React from 'react';
 import Container from './Container';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { ShoppingCart, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Sun, Moon, Menu } from 'lucide-react';
 import DropDownAvatar from './DropDownAvatar';
 import { useTheme } from 'next-themes';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 const routes = [
   {
     id: 1,
@@ -34,6 +35,20 @@ const Header = () => {
     <header className="px-4 py-3 sm:flex sm:justify-between sm:items-center border-b border-gray-500 shadow-lg">
       <Container>
         <div className="flex justify-between items-center">
+          <Sheet>
+            <SheetTrigger>
+              <Menu className="w-6 h-6 md:hidden"></Menu>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <nav className="flex gap-4 flex-col">
+                {routes.map((route) => (
+                  <Button asChild key={route.id} variant={'ghost'} size={'lg'}>
+                    <Link href={route.link}>{route.label}</Link>
+                  </Button>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
           <div className="flex items-center">
             <Link href="/">
               <h1 className="text-xl font-bold">MY STORE</h1>
