@@ -113,3 +113,135 @@ we can pass object to control the data caching.
 - Rendering at build time.
   in next js we have another preformance optimization technique, called static rendering or static site generation,
   if we have static page or static data, nextjs build the static page once during the build time and its always available in cache file, because of this we get pre build html page, it fast loading, seo friendly.
+
+  2. Dynamic - at request time.
+
+  - page render / data is fetched during the page load time. html page is generated in server for every request and then it is send to the client.
+
+## Styling
+
+**Radix UI**
+
+[Radix UI](https://www.radix-ui.com/)
+
+- click on get started
+- `npm install @radix-ui/themes`
+- Import the global CSS file at the root of your application.
+- `import '@radix-ui/themes/styles.css';`
+
+- Add Theme to your application, wrapping the root component inside of body.
+
+```javascript
+import { Theme } from '@radix-ui/themes';
+
+export default function () {
+  return (
+    <html>
+      <body>
+        <Theme>
+          <MyApp />
+        </Theme>
+      </body>
+    </html>
+  );
+}
+```
+
+- Using the theme panel to change the theme colors
+
+## Routing and Navigation
+
+- we have learned the basic of routing and navigation i nextjs.
+- In this section we will dive deep to learn following topics.
+
+1. Define dynamic routes
+
+2. Access route and query string parameters
+
+3. creare layouts
+
+4. show loading UIs
+
+5. Handle errors
+
+- In nextjs we have file system routing, you can create folder and add page.tsx
+
+**Special Files**
+page.tsx (for route page)
+layout.tsx - defining common layout for pages
+loading.tsx - (for showing loading page)
+route.tsx (for building api)
+not-found.tsx (for showing custom error)
+error.tsx (showing general error)
+
+- note if the componet is only used in once place then its good approach to keep it in same folder.
+
+**Define dynamic route**
+
+- Dynamic route is a route with parameter/ users>[id]>page.tsx
+
+```Javascript
+
+import React form 'react'
+
+interface Props {
+
+params: {id: number}
+}
+
+const UserDetailsPage = ({params: {id}}: Props)=>{
+return(
+<div>User Details Page
+)
+}
+
+```
+
+(props: Props) // ({params}:Props) // ({params:{id} : Props})
+
+\*\*lets build dynamic route (users/id/photos/photoId // users/1/photos/3)
+
+```Javascript
+
+import React form 'react'
+
+interface Props {
+
+params: {id: number; photoId: number;}
+}
+
+const UserPhotoPage = ({params: {id, photoId}}: Props)=>{
+return(
+<div>User Photo Page {id, photoId} </div>
+)
+}
+
+```
+
+// (props: Props) // ({params}:Props) // ({params:{id, photoId} : Props})
+
+**Catch all Segments**
+
+- lets assume we have various parameters ( http://localhost:3000/products/grocery/dairy/milk)
+
+- we are not going to create so many nested folder , but there is better ways
+- create folder products>[[...slug]]>page.tsx
+
+```Javascript
+
+import React form 'react'
+
+interface Props {
+
+params: {slug:string}
+}
+
+const ProductPage = ({params: {slug}}: Props)=>{
+return(
+<div> Product page and route is {slug} </div>
+)
+}
+
+```
+
+**Accessing Query String Parameters**
