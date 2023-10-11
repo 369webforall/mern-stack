@@ -1,5 +1,7 @@
 # Nextjs Basic
 
+[nextjs-video-1](https://youtu.be/4i1Nou_oloA)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
