@@ -41,7 +41,7 @@
 
 **client**
 
-- **server**
+**server**
 
 - NavBar / Sidebar / ProductList / ProductCard / Pagination / Footer
 - we keep most of the componet in SSR and just extact the components which need clint side action or dealing with Hooks to be rendered in client
@@ -151,16 +151,16 @@ export default function () {
 
 - Using the theme panel to change the theme colors
 
-## Routing and Navigation
+## 2. Routing and Navigation
 
 - we have learned the basic of routing and navigation i nextjs.
 - In this section we will dive deep to learn following topics.
 
-1. Define dynamic routes
+1. Dynamic routes
 
 2. Access route and query string parameters
 
-3. creare layouts
+3. create layouts
 
 4. show loading UIs
 
@@ -168,19 +168,22 @@ export default function () {
 
 - In nextjs we have file system routing, you can create folder and add page.tsx
 
-**Special Files**
-page.tsx (for route page)
-layout.tsx - defining common layout for pages
-loading.tsx - (for showing loading page)
-route.tsx (for building api)
-not-found.tsx (for showing custom error)
-error.tsx (showing general error)
+### Special Files in nextjs project
 
-- note if the componet is only used in once place then its good approach to keep it in same folder.
+- page.tsx (for route page)
+- layout.tsx - defining common layout for pages
+- loading.tsx - (for showing loading page)
+- route.tsx (for building api)
+- not-found.tsx (for showing custom error)
+- error.tsx (showing general error)
+
+- note if the componet is only used in once place then its good approach to keep it in same folder or route.
 
 **Define dynamic route**
 
 - Dynamic route is a route with parameter/ users>[id]>page.tsx
+- This only work with page.tsx, doesn't work with componet render to that page.
+- we must the the id and pass it to the componet as props.
 
 ```Javascript
 
@@ -201,7 +204,7 @@ return(
 
 (props: Props) // ({params}:Props) // ({params:{id} : Props})
 
-\*\*lets build dynamic route (users/id/photos/photoId // users/1/photos/3)
+`lets build dynamic route (users/[id]/photos/[photoId] // users/1/photos/3)`
 
 ```Javascript
 
@@ -247,3 +250,21 @@ return(
 ```
 
 **Accessing Query String Parameters**
+
+- /users?sortOrder=name
+- /users?sortOrder=email
+
+interface Props {
+searchParams: {sortOrder:string}
+}
+
+- use fast-sort package to sort the table with name and email
+
+[fastsort](https://www.npmjs.com/package/fast-sort)
+
+**Layouts**
+**Navigation**
+**Programmatic navigation**
+**Showing loading UI**
+**Handling Not Found Errors**
+**Handling Unexpected Errors**

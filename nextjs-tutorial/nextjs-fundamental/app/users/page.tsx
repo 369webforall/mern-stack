@@ -1,29 +1,15 @@
 import React from 'react';
-
-interface User {
-  id: number;
-  name: string;
+import UserTable from './UserTable';
+import { Button } from '@radix-ui/themes';
+interface Props {
+  searchParams: { sortOrder: string };
 }
 
-async function fetchUser() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return await res.json();
-}
-
-const UsersPage = async () => {
-  const users: User[] = await fetchUser();
-
-  console.log(users);
-
+const UsersPage = async ({ searchParams: { sortOrder } }: Props) => {
   return (
-    <div>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
-      ))}
+    <div className="w-full">
+      <Button>Add User</Button>
+      <UserTable sortOrder={sortOrder} />
     </div>
   );
 };
