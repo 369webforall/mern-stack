@@ -2,6 +2,8 @@
 
 [nextjs-video-1](https://youtu.be/4i1Nou_oloA)
 
+[nextjs-video-2](https://youtu.be/ihuY_ZdSQGE)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
