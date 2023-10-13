@@ -1,17 +1,19 @@
 import React from 'react';
 import UserTable from './UserTable';
-import { Button } from '@radix-ui/themes';
+import Link from 'next/link';
 interface Props {
-  searchParams: { sortOrder: string };
+  searchParams: { shortOrder: string };
 }
-
-const UsersPage = async ({ searchParams: { sortOrder } }: Props) => {
+const UserPage = ({ searchParams: { shortOrder } }: Props) => {
   return (
-    <div className="w-full">
-      <Button>Add User</Button>
-      <UserTable sortOrder={sortOrder} />
+    <div>
+      <Link href="/users/new" className="btn bg-sky-500 text-white">
+        Add New User
+      </Link>
+      <h1>List of Users</h1>
+      <UserTable sortOrder={shortOrder} />
     </div>
   );
 };
 
-export default UsersPage;
+export default UserPage;

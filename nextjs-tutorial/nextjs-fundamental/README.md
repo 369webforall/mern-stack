@@ -4,6 +4,8 @@
 
 [nextjs-video-2](https://youtu.be/ihuY_ZdSQGE)
 
+[nextjs-video-3](https://youtu.be/bLw6geM8mgI)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
@@ -256,6 +258,12 @@ return(
 - /users?sortOrder=name
 - /users?sortOrder=email
 
+interface User {
+id: number;
+name: string;
+email: string;
+}
+
 interface Props {
 searchParams: {sortOrder:string}
 }
@@ -264,9 +272,156 @@ searchParams: {sortOrder:string}
 
 [fastsort](https://www.npmjs.com/package/fast-sort)
 
+import {sort} from 'fast-sort'
+
+const sortedUser = sort(users).asc(sortOrder==='email' ? (user)=>user.email : (user)=>user.name);
+
 **Layouts**
+
+- A layout is UI that is shared between routes or multiple pages.
+  [Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts)
+
+  app>admin>layout.tsx / page.tsx
+
+---
+
+import React, { ReactNode } from 'react';
+
+interface Props {
+children: ReactNode;
+}
+
+const AdminLayout = ({ children }: Props) => {
+return (
+
+<div className='flex'>
+<aside className='bg-slate-200 p-5 mr-5'>Admin Sidebar</aside>
+<div>{children}</div>
+</div>
+)
+}
+
+## export default AdminLayout
+
 **Navigation**
+
+- We learn how to navigate with Link component from nextjs.
+- Link downloads the content of the target page only,
+- Pre-fetches links that are in the viewport.
+- Caches pages on the client
+
 **Programmatic navigation**
+
+- Some time we need to bring the use to the new page by submiting the form or clicking the button. This is called programatic navigation.
+- we use useRouter Hooks.
+
+- Because we are using hooks this will be client page.
+  import {useRouter} from 'next/navigation'
+
+const router = useRouter()
+
+- in call back function we can use this router
+  router.push('/)
+
+Note: make sure use Link in users>page.tsx to navigate to new directory.
+app>new>page.tsx
+
+```javascript
+'use client';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+
+const NewUserPage = () => {
+  const router = useRouter();
+
+  return (
+    <button className="btn btn-primary" onClick={() => router.push('/users')}>
+      Create
+    </button>
+  );
+};
+
+export default NewUserPage;
+```
+
 **Showing loading UI**
+
+- In react 18 there is Suspense component , which we can use to show the fallback componet while loading the componet.
+
+- <Suspense fallback={<div>Loading cities...</div>}>
+
+```javascript
+import React, { Suspense } from 'react';
+import UserTable from './UserTable';
+import Link from 'next/link';
+
+interface Props {
+  searchParams: { sortOrder: string };
+}
+
+const UsersPage = async ({ searchParams: { sortOrder } }: Props) => {
+  return (
+    <>
+      <h1>Users</h1>
+      <Link href="/users/new" className="btn">
+        New User
+      </Link>
+      <Suspense fallback={<p>Loading...</p>}>
+        <UserTable sortOrder={sortOrder} />
+      </Suspense>
+    </>
+  );
+};
+
+export default UsersPage;
+```
+
+Next we can use build functionality in app> loading.tsx
+
+```javascript
+import React from 'react';
+
+const Loading = () => {
+  return <span className="loading loading-spinner loading-md"></span>;
+};
+
+export default Loading;
+```
+
 **Handling Not Found Errors**
+
+- In nextjs when we go to page which doesn't exist then we always get 404 error page.
+- we can always customize it.
+- app>not-found.tsx
+
+```javascript
+import React from 'react';
+
+const NotFoundPage = () => {
+  return <div>The requested page doesn&apos;t exist.</div>;
+};
+
+export default NotFoundPage;
+```
+
+- we can also add not-found.tsx page in any route. eg. in users>[id]>not-found.tsx
+
+```javascript
+import React from 'react';
+
+const UserNotFoundPage = () => {
+  return <div>This user doesnot exist.</div>;
+};
+
+export default UserNotFoundPage;
+```
+
+page.tsx
+import { notFound } from 'next/navigation'
+if(id>10) notFound();
+
 **Handling Unexpected Errors**
+
+- if there is any network error dur to invalid endpont , then in such condition we use error.tsx to handle the error.
+
+[error](https://nextjs.org/docs/app/building-your-application/routing/error-handling)

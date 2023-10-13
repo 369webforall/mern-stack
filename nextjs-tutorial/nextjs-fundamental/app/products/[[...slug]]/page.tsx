@@ -1,9 +1,11 @@
+import React from 'react';
 interface Props {
-  params: { slug: string[] };
+  params: {
+    slug: string[];
+  };
 }
-
-const ProductPageDetails = ({ params: { slug } }: Props) => {
-  return <div> Product page and route is {slug} </div>;
+const ProductDetails = ({ params: { slug } }: Props) => {
+  return <div>ProductDetails {slug}</div>;
 };
 
-export default ProductPageDetails;
+export default ProductDetails;
