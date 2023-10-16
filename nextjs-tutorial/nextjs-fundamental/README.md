@@ -425,3 +425,136 @@ if(id>10) notFound();
 - if there is any network error dur to invalid endpont , then in such condition we use error.tsx to handle the error.
 
 [error](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
+
+## Building APIs
+
+**1-Introduction**
+
+- getting collection /all objects
+- creating objects
+- updating objects
+- deleting objects
+- validating request with zod
+
+**2-getting objects**
+
+- we must follow the nextjs convention for creating api
+- app/api/users/route.tsx
+
+```javascript
+import { NextRequest, NextResponse } from 'next/server';
+
+export function GET(request: NextRequest) {
+  return NextResponse.json([
+    { id: 1, name: 'Dev' },
+    { id: 2, name: 'Robert' },
+  ]);
+}
+```
+
+**3-getting single object**
+
+- users/[id]/route.tsx
+
+```javascript
+import { NextRequest, NextResponse } from 'next/server';
+
+interface Props {
+  params: { id: number };
+}
+
+export function GET(request: NextRequest, { params: { id } }: Props) {
+  if (id > 15) {
+    return NextResponse.json({ error: 'No data data found' }, { status: 400 });
+  }
+  return NextResponse.json({ id, name: 'This is my data' });
+}
+```
+
+**3.Creating an object**
+
+- Method for creating user is POST, we send the request to the end point and also the data to body.
+- In real application we can do the validation
+- if invalid, return 400
+- else return the data
+
+```javascript
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  if (!body.name) {
+    return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+  }
+  return NextResponse.json({ id: 1, name: body.name }, { status: 201 });
+}
+```
+
+**updating an user**
+
+- to update user we send request to the end point, along with the the object to the request body.
+
+- validate the request body data.
+- check if user doesn't exist
+- send the response with updated user.
+
+```javascript
+export async function PUT(request: NextRequest, { params: { id } }: Props) {
+  const body = await request.json();
+
+  if (id > 15) {
+    return NextResponse.json({ error: 'No data data found' }, { status: 400 });
+  }
+  if (!body.name) {
+    return NextResponse.json({ error: 'name is required' }, { status: 404 });
+  }
+
+  return NextResponse.json({ id, name: body.name });
+}
+```
+
+**delete an user**
+
+- to delete user
+- first we fetch the user from db
+- if not found reutn 404
+- Delete the user
+- Return 200
+
+```javascript
+export async function DELETE(request: NextRequest, { params: { id } }: Props) {
+  if (id > 15) {
+    return NextResponse.json({ error: 'No user found' }, { status: 404 });
+  }
+
+  return NextResponse.json({ mesage: 'user deleted' }, { status: 200 });
+}
+```
+
+**validating request with zod library**
+
+- back to PUT function we use if statement to validate the object send with the request, but for complex object, it will create to many if statement, so to solve this issue we use library called zod to smiplify our valiation process.
+- npm i zod
+- create file schema in users
+
+```javascript
+import { z } from 'zod';
+
+z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  age: z.number(),
+});
+```
+
+```javascript
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const validation = schema.safeParse(body);
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: validation.error.errors },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json(body, { status: 201 });
+}
+```
