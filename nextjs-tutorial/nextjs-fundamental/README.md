@@ -560,3 +560,79 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(body, { status: 201 });
 }
 ```
+
+## Database integration with prisma
+
+- Prisma ORM (Object relational mapping) is a database management tool that
+  simplifies data interaction, providing a type-safe API and query builder for efficient database operations in software development.
+
+  - It's a tool to work with database in effieicent operation.
+
+  - we will use MONGODB database, it is NoSQL (Not Just SQL) is use for storing data in JSON type document in collection in Database.
+
+- Setting up prisma
+- Defining data models
+- Creating migrations
+- Performing CRUD operations
+
+**setting up prisma**
+[setup prisma with mongodb](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/mongodb-typescript-mongodb)
+
+- follow the document instruction to install prima.
+
+npm install prisma --save-dev
+
+npx prisma
+
+npx prisma init
+
+- setup mongodb database
+- add connection link to the .env file
+- to check prisma available command run `npx prisma`
+
+`Introspecting MongoDB with Prisma`
+
+npx prisma db pull
+
+**Defining data models**
+
+- go to schema.prisma and define one or more model
+
+```javascript
+model User {
+ id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  name String
+  followers Int @default(0)
+  isActive Boolean @default(true)
+}
+```
+
+- In the above model we use basic types, prisma support different complex types,
+  [prisma models](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model)
+
+**Defining migration**
+
+- as we define or change our model we have to create migration.
+- these migration keeps our database schema insync with our prisma schema.
+
+`npx prisma db push`
+
+**Creating a Prisma client**
+
+- create client.ts file and add code form below link.
+
+[prisma client](https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices)
+
+**Getting data from database**
+
+- go to api>users>route.ts
+
+```
+export async function GET(requst: NextRequest) {
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
+}
+
+
+```

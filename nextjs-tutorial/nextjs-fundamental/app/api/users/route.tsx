@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import schema from './schema';
+import prisma from '@/prisma/client';
 interface Props {
   name: string;
 }
 
 // GET, POST, PUT, DELETE
 // localhost:3000/api/users
-export function GET(requst: NextRequest) {
-  return NextResponse.json([{ id: 1, name: 'dev' }]);
+export async function GET(requst: NextRequest) {
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
 }
 
 export async function POST(request: NextRequest) {
-  const body: Props = await request.json();
+  const body: { name: string; email: string } = await request.json();
   const validation = schema.safeParse(body);
   console.log(validation);
   if (!validation.success) {
@@ -20,6 +22,8 @@ export async function POST(request: NextRequest) {
       { status: 404 }
     );
   }
-
-  return NextResponse.json(body, { status: 201 });
+  const user = await prisma.user.create({
+    data: { name: body.name, email: body.email },
+  });
+  return NextResponse.json(user, { status: 201 });
 }
