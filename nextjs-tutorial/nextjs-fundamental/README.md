@@ -8,6 +8,8 @@
 
 [nextjs-video-4](https://youtu.be/KFF3mz6qu0M)
 
+[nextjs-video-5-prisma](https://youtu.be/NyujLEuRAaI)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
