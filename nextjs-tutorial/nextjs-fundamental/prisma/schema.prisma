@@ -19,3 +19,4 @@ model User {
   isActive Boolean @default(true)
   registeredAt DateTime @default(now())
 }
+

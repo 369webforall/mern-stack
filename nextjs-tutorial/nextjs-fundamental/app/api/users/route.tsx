@@ -9,13 +9,13 @@ interface Props {
 // localhost:3000/api/users
 export async function GET(requst: NextRequest) {
   const users = await prisma.user.findMany();
-  return NextResponse.json(users);
+  return NextResponse.json(users, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
   const body: { name: string; email: string } = await request.json();
   const validation = schema.safeParse(body);
-  console.log(validation);
+
   if (!validation.success) {
     return NextResponse.json(
       { error: validation.error.errors },
