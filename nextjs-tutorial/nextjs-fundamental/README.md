@@ -628,13 +628,182 @@ model User {
 
 **Getting data from database**
 
-- go to api>users>route.ts
+- create file api>users>route.tsx
 
-```
+```javascript
 export async function GET(requst: NextRequest) {
   const users = await prisma.user.findMany();
-  return NextResponse.json(users);
+  return NextResponse.json(users, { status: 200 });
+}
+```
+
+**Creating data**
+
+```javascript
+export async function POST(request: NextRequest) {
+  const body: { name: string, email: string } = await request.json();
+  const validation = schema.safeParse(body);
+
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: validation.error.errors },
+      { status: 404 }
+    );
+  }
+  const user = await prisma.user.create({
+    data: { name: body.name, email: body.email },
+  });
+  return NextResponse.json(user, { status: 201 });
+}
+```
+
+**Getting single user**
+
+```javascript
+interface Props {
+  params: { id: string };
 }
 
+export async function GET(requst: NextRequest, { params }: Props) {
+  const user = await prisma.user.findUnique({ where: { id: params.id } });
+  if (!user) {
+    return NextResponse.json({ error: 'no user found' }, { status: 400 });
+  }
+  return NextResponse.json(user);
+}
+}
+
+```
+
+**Updating data**
+
+```javascript
+export async function PUT(request: NextRequest, { params }: Props) {
+  // firt we check if use exist.
+
+  const user = await prisma.user.findUnique({ where: { id: params.id } });
+  if (!user) {
+    return NextResponse.json({ error: 'no user found' }, { status: 400 });
+  }
+  const updatedUser = await request.json();
+
+  const validation = schema.safeParse(updatedUser);
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: validation.error.errors },
+      { status: 404 }
+    );
+  }
+  const saveUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      name: updatedUser.name,
+      email: updatedUser.email,
+    },
+  });
+
+  return NextResponse.json(updatedUser, { status: 201 });
+}
+```
+
+**Deleting data**
+
+```javascript
+export async function DELETE(request: NextRequest, { params }: Props) {
+  const user = await prisma.user.findUnique({ where: { id: params.id } });
+  if (!user) {
+    return NextResponse.json({ error: 'no user found' }, { status: 404 });
+  }
+
+  await prisma.user.delete({ where: { id: user.id } });
+  return NextResponse.json({ mesage: 'user deleted' }, { status: 200 });
+}
+```
+
+## Uploading file
+
+In this section we learn how we can allow user to upload file in our nextjs application.
+
+`some of the cloud platform for uploading files`
+
+- Amazon S3
+- Google Cloud
+- Microsoft Azure
+- Cloudinary
+
+In this lesson we are going to learn how to upload file in cloudinary.
+
+**setting up cloudinary**
+
+- signup to clodinary
+- Product Environment for setup product environment (development, production, testing)
+- install npm i next-cloudinary
+  This libray brings bunch of componetns for uploding and viewing files.
+- go to google and search next-coludinary
+  [next-coludinary](https://next.cloudinary.dev/)
+- check for installation instruction
+
+**uploading files**
+
+- go to setting on cloudinary management
+- upload
+- click on add upload preset
+- copy the code
+- save the change
+- coudinary passes object to the child function
+
+**display image**
+
+here is the code.
+
+```javascript
+
+'use client';
+import React, { useState } from 'react';
+import { CldUploadWidget, CldImage } from 'next-cloudinary';
+
+interface CloudinaryResult {
+  public_id: string;
+}
+
+const UploadPage = () => {
+  const [publicId, setPublicId] = useState('');
+  return (
+    <>
+      {publicId && (
+        <CldImage
+          src={publicId}
+          width={270}
+          height={180}
+          alt="A coffee image"
+        />
+      )}
+      <CldUploadWidget
+        uploadPreset="jngeoqab"
+        options={{
+          sources: ['local'],
+          multiple: false,
+          maxFiles: 5,
+        }}
+        onUpload={(result, widget) => {
+          if (result.event !== 'success') return;
+          const info = result.info as CloudinaryResult;
+          setPublicId(info.public_id);
+        }}
+      >
+        {({ open }) => (
+          <button
+            onClick={() => open()}
+            className="bg-orange-500 px-4 py-2 rounded-sm text-white"
+          >
+            Upload
+          </button>
+        )}
+      </CldUploadWidget>
+    </>
+  );
+};
+
+export default UploadPage;
 
 ```
