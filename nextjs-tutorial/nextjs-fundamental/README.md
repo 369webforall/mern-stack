@@ -930,17 +930,15 @@ jwt is like identification card client send to the server for each request.
 
 - to access the authentication session on the client we need to go the rootLayout and rap out application inside SessionProvider component. This session provider internally uses react-context to pass the session down to the component tress.
 
-```
+```javascript
 import AuthProvider from '@/auth';
 
 <body>
-<AuthProvider>
-<Navbar />
-<main>
-
-</main>
-</AuthProvider>
-</body>
+  <AuthProvider>
+    <Navbar />
+    <main></main>
+  </AuthProvider>
+</body>;
 ```
 
 - here we will get error that we are trying to access sessionprovider in server component.
@@ -963,17 +961,26 @@ export default AuthProvider;
 ```
 
 - to access the session, go the Navbar.tsx,
-  import {useSession} from 'next-auth/react';
 
-const Navbar =()=>{
-const {status, data: session} = useSession();
-{status === 'authenticated' && <div>{session.user.name}</div>}
-{status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
-}
+```javascript
+import { useSession } from 'next-auth/react';
+
+const Navbar = () => {
+  const { status, data: session } = useSession();
+  {
+    status === 'authenticated' && <div>{session.user.name}</div>;
+  }
+  {
+    status === 'unauthenticated' && <Link href="api/auth/signin">Login</Link>;
+  }
+};
+```
 
 **6-Accessing Session on the server**
 
 - go to home page
+
+  ```javascript
   import {getServerSession} from 'next-auth'
   import {authOption} from './api/auth/[...nextauth]/route'
 
@@ -985,17 +992,22 @@ const {status, data: session} = useSession();
   <h1>{session && <span>{session.user!.name}</span>}</h2>
       </>
     )
+  ```
 
 }
+
+````
 **7-Signing Out User**
 
 - we call the endpoint api/auth/signout
-
+```javascript
 const Navbar =()=>{
 const {status, data: session} = useSession();
 {status === 'authenticated' && <div>{session.user.name} <Link href="/api/auth/>SignOut</Link></div>}
 {status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
 }
+````
+
 **8-Protecting Routes**
 **9-Database Adapters**
 **10-Configuring CredentialsProvider**
