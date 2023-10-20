@@ -807,3 +807,196 @@ const UploadPage = () => {
 export default UploadPage;
 
 ```
+
+## Authentication with Next Auth
+
+**1-Introduction**
+
+- setting up Next Auth
+- Configuring the Google Provider
+- Authentication Sessions
+- Protecting Routes
+- Database adapters
+- Configuring the credentials provider
+
+  **2-Setting up Next Auth**
+
+- To setup authentication we will use very popular library called nextauth.
+
+[NextAuth](https://next-auth.js.org/)
+[NextAuth](https://authjs.dev/)
+
+- to add nextauth to the existing project first we have to install nextauth.
+  `npm install next-auth`
+
+  - Add API route (Note if your are using nexths 13.2 or above with the app router you can initialize the configuration using the new Route Handlers by following our guide.)
+    [Guide for Nextjs>13.2](https://next-auth.js.org/configuration/initialization#route-handlers-app)
+
+        `Route Handlers (app/)`
+
+    /app/api/auth/[...nextauth]/route.ts
+
+```javascript
+import NextAuth from 'next-auth';
+
+const handler = NextAuth({});
+
+export { handler as GET, handler as POST };
+```
+
+- next create two environment variable
+  `NEXTAUTH_URL=http://localhost:3000`
+
+  `NEXTAUTH_SECRET=9uOomwv5Eq9feSdcIUtlIkixV0tZQWxmdEQ1AeKjl5g=`
+  secret key has to be long string which nextauth encrypt and signed the authnetication key.
+
+- you can generate the key from your command terminal - openssl -base64 32
+
+**3-Configuring Google provider**
+
+- nextauth it has concept of provider, it is a service which we can use to sign in the user.
+
+eg- google, github, ...
+
+- first we need to do the configuration in google platform.
+
+[Configuration](https://console.developers.google.com/apis/credentials)
+
+- create project
+- next we need to configure consent screen ( this tells user the that such app want to access your account)
+
+- app name - Next App
+
+- developer contact information
+- save and continue
+
+- go to credentials > create credentials > OAuth client ID
+
+(what is OAuth - it's open authentication protocal, and lot of website like google,twitter and facebook implemet. with OAuth we can allow user to login with there google or twitter account)
+So when someone try to login to our website using google, google will verify their authentication and direct back to our website.
+`http://localhost:3000`
+
+`http://localhost:3000/api/auth/callback/google`
+
+- copy the clientId and secretKey to env file
+
+GOOGLE_CLIENT_ID =
+GOOGLE_CLIENT_SECRET =
+
+- Next we need to create the google provider
+
+```javascript
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+
+const handler = NextAuth({
+  providers: [
+  GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+  })
+]
+});
+
+export { handler as GET, handler as POST };
+```
+
+- Now lets create the Login Link in Navbar
+- <Link href='/api/auth/signin'>Login</Link>
+
+  **4-Understanding Authentication Sessions**
+
+- one of the important concept we need to understand is the concept of authentication session, basically when client login nextauth create token in client computer, which is send to server to verify the client. we called it jwt.
+
+- after login, inspect the page, go to application and click on cookies, to see the session cookies.
+
+let's create folder called token in api/auth, add route.ts file
+
+```javascript
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  const token = await getToken({ req: request });
+}
+return NextResponse.json(token);
+```
+
+`http:localhost:3000/api/auth/toke` to get the details of jwt.
+
+jwt is like identification card client send to the server for each request.
+
+**5-Accessing Session on the client**
+
+- to access the authentication session on the client we need to go the rootLayout and rap out application inside SessionProvider component. This session provider internally uses react-context to pass the session down to the component tress.
+
+```
+import AuthProvider from '@/auth';
+
+<body>
+<AuthProvider>
+<Navbar />
+<main>
+
+</main>
+</AuthProvider>
+</body>
+```
+
+- here we will get error that we are trying to access sessionprovider in server component.
+
+so to fix this we must create seperate componet.
+
+- crate auth folder in app. app>auth
+  -add Provider.tsx
+
+```javascript
+'use client';
+import React, { ReactNode } from 'react';
+import { SessionProvider } from 'next-auth/react';
+
+const AuthProvider = ({ children }: { children: ReactNode }) => {
+  return <SessionProvider>{children}</SessionProvider>;
+};
+
+export default AuthProvider;
+```
+
+- to access the session, go the Navbar.tsx,
+  import {useSession} from 'next-auth/react';
+
+const Navbar =()=>{
+const {status, data: session} = useSession();
+{status === 'authenticated' && <div>{session.user.name}</div>}
+{status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
+}
+
+**6-Accessing Session on the server**
+
+- go to home page
+  import {getServerSession} from 'next-auth'
+  import {authOption} from './api/auth/[...nextauth]/route'
+
+  export default async function Home(){
+  const session = await getServerSession(authOption);
+
+  return(
+  <>
+  <h1>{session && <span>{session.user!.name}</span>}</h2>
+      </>
+    )
+
+}
+**7-Signing Out User**
+
+- we call the endpoint api/auth/signout
+
+const Navbar =()=>{
+const {status, data: session} = useSession();
+{status === 'authenticated' && <div>{session.user.name} <Link href="/api/auth/>SignOut</Link></div>}
+{status === 'unauthenticated' && <Link href='api/auth/signin'>Login</Link>}
+}
+**8-Protecting Routes**
+**9-Database Adapters**
+**10-Configuring CredentialsProvider**
+**11-Regestering Users**
