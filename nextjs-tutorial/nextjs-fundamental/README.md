@@ -10,6 +10,10 @@
 
 [nextjs-video-5-prisma](https://youtu.be/NyujLEuRAaI)
 
+[nextjs-video-6-Cloudinary](https://youtu.be/1v75HXB7LtA)
+
+[nextjs-video-7-Next-Auth](https://youtu.be/7BH76Jz68yE)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
