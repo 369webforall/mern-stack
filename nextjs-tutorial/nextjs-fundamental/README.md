@@ -1026,6 +1026,8 @@ let's try to understand how middleware work.
 
 - In root folder create middleware.ts file
 
+`for demo of middleware`
+
 ```javascript
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -1060,20 +1062,188 @@ export const config = {
 
 **9-Database Adapters**
 
+- Upto this point we can login with google accounts but in real application, we need to store the user information in database, for this nextauth provide Adaptor, so let's see in action.
+
+- with adaptor when someone login nextauth will automatically store the use information in database.
+- In nextauth documentation go to Adaptor, we have various adaptor, we will use prisma. becasue we already have prisma installed.
+
+`npm install  @next-auth/prisma-adapter`
+
+- next step import
+  `import { PrismaAdapter } from "@next-auth/prisma-adapter"`
+  `import {prisma} from @prisma/client`
+
+  - add ` adapter:PrismaAdapter(prisma)`
+
+  - next step is add prisma schema.
+  - Delete the User model first.
+
+  - run `npx prisma db push`
+
+  model Account {
+  id String @id @default(auto()) @map("\_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.String
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String? @db.String
+  session_state String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+  }
+  model Session {
+  id String @id @default(auto()) @map("\_id") @db.ObjectId
+  sessionToken String @unique
+  userId String @db.ObjectId
+  expires DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("sessions")
+  }
+
+  model User {
+  id String @id @default(auto()) @map("\_id") @db.ObjectId
+  name String?
+  email String? @unique
+  emailVerified DateTime?
+  image String?
+  accounts Account[]
+  sessions Session[]
+  @@map("users")
+  }
+
+model VerificationToken {
+id String @id @default(auto()) @map("\_id") @db.ObjectId
+identifier String
+token String @unique
+expires DateTime
+
+@@unique([identifier, token])
+@@map("verificationtokens")
+}
+
+- run `npx prisma db push`
+
 **10-Configuring CredentialsProvider**
 
+- Using google provider for login was easy, we don't have to do any things. but you want user to register to your website, then we have to do some wrok to create registration page, login, hashed password,
+
+- first import `import CredentialsProvider from "next-auth/providers/credentials";`
+
+- hash password `npm i bcrypt`
+
+- type checking for bcryt `npm i -D @types/bcrypt`
+
+- add `hashedPassword String?` to user schema.
+
+```javascript
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '@/prisma/client';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+
+export const authOption: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'text', placeholder: 'email' },
+        password: {
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Password',
+        },
+      },
+      async authorize(credentials, req) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
+        if (!user) return null;
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword!
+        );
+        return passwordsMatch ? user : null;
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+};
+
+const handler = NextAuth(authOption);
+
+export { handler as GET, handler as POST };
+```
+
 **11-Regestering Users**
+
+- to allow user to register first we have to create API end point.
+- This api end point will be called by the client component that renders the form.
+- add registe folder // api>register>route.ts
+
+```javascript
+import prisma from '@/prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import bcrypt from 'bcrypt';
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(5),
+});
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+
+  const validation = schema.safeParse(body);
+
+  if (!validation.success) {
+    return NextResponse.json(validation.error.errors, { status: 400 });
+  }
+  const user = await prisma.user.findUnique({ where: { email: body.email } });
+  if (user)
+    return NextResponse.json({ error: 'User already exit' }, { status: 400 });
+
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+  const newUser = await prisma.user.create({
+    data: {
+      email: body.email,
+      hashedPassword,
+    },
+  });
+
+  return NextResponse.json({ email: newUser.email });
+}
+```
 
 **12. Additional Reading**
 
 - We can replace the autogenerated login and logout pages with our custom ones.
 - Dive into the guide below to learn how.
 
-  [Custom configration](https://next-auth.js.org/configuration/pages)
+[Custom configration](https://next-auth.js.org/configuration/pages)
 
-  provides a number of events (eg signIn, signOut, createUser, etc) that are useful for auditing or handling any other side effects:
+provides a number of events (eg signIn, signOut, createUser, etc) that are useful for auditing or handling any other side effects:
 
-  [Events](https://next-auth.js.org/configuration/events)
+[Events](https://next-auth.js.org/configuration/events)
 
-  can provide handlers for these events as part of our NextAuth.js setup:
-  [Options](https://next-auth.js.org/configuration/options#events)
+can provide handlers for these events as part of our NextAuth.js setup:
+[Options](https://next-auth.js.org/configuration/options#events)
+
+```
+
+```
