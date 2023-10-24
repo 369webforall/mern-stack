@@ -14,6 +14,8 @@
 
 [nextjs-video-7-Next-Auth](https://youtu.be/7BH76Jz68yE)
 
+[nextjs-video-8-Next-Auth-Part2](https://youtu.be/V8g5iKRqbF4)
+
 ## Next.js Fundamentals
 
 1. What is nextjs
